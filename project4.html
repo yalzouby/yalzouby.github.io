@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Yasmeen Alzouby">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600&display=swap"
+        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Patua+One&family=Playfair+Display&family=Sofia+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style1.css">
+    <link rel="stylesheet" href="css/style2.css">
+    <title>Project 4</title>
+</head>
+
+<body>
+    <header id="header">
+        <ul>
+            <li><a href="/index.html"><img src="images/projectlogo.png" alt="logo" width="100" height="100"></a></li>
+        </ul>
+        <nav>
+            <ul>
+                <li><a href="/index.html">About Me</a></li>
+                <li><a href="/project.html">My Projects</a></li>
+                <li><a href="/project1.html">Project 1</a></li>
+                <li><a href="/project2.html">Project 2</a></li>
+                <li><a href="/project3.html">Project 3</a></li>
+                <li><a href="/project4.html">Project 4</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="content-wrapper">
+            <section id="about">
+                <h2>Project 4: Clustering</h2>
+                <h4>What is Clustering?</h4>
+                <div>
+                    <h6>Clustering is a fundamental technique in unsupervised learning, where the goal is to identify
+                        groups, or clusters, of similar data points within a dataset. The main idea is to partition the
+                        data into subsets, or clusters, such that data points within the same cluster are more similar
+                        to each other than to those in other clusters. Two common methods for clustering are k-means and
+                        agglomerative hierarchical clustering.
+                    </h6>
+                </div>
+                <div>
+                    <h6>
+                        <ul class="attribute-list">
+                            <li>K-Means Clustering: K-means starts by randomly selecting k initial cluster centroids
+                                (representative points) in the feature space. Then, it iteratively assigns each data
+                                point to the nearest centroid and updates the centroids by computing the mean of all
+                                points assigned to each centroid. This process is repeated until the centroids no longer
+                                change significantly, or until a specified number of iterations is reached.</li>
+                            <li>Agglomerative Hierarchical Clustering: Agglomerative clustering starts by considering
+                                each data point as a separate cluster and then merges the closest pairs of clusters
+                                iteratively until only one cluster remains. The merging process is guided by a distance
+                                metric (e.g., Euclidean distance) between clusters, and various linkage criteria (e.g.,
+                                single linkage, complete linkage, average linkage) determine how the distance between
+                                clusters is measured.</li>
+                        </ul>
+                    </h6>
+                </div>
+                <h4>Introduction</h4>
+                <div>
+                    <h6>Navigating the current housing market presents significant challenges, with elevated mortgage
+                        rates, out-of-reach home prices and record-low housing stock. Achieving homeownership feels
+                        increasingly out of reach for many today. According to the Zillow Home Value Index, the average
+                        value for single-family homes in the US peaks in California at $785,294. In this analysis, we'll
+                        delve into California's housing rates from a few decades ago. Our goal is to explore the
+                        relationship between various features in our dataset and housing values.</h6>
+                </div>
+                <div>
+                    <h6>We will be using the <a
+                            href="https://www.kaggle.com/datasets/camnugent/california-housing-prices/data">"California
+                            Housing Prices"</a> dataset from
+                        Kaggle. The data pertains to the houses found in a given California district and some summary
+                        statistics about them based on the 1990 census data. The dataset features 10 variables for
+                        20,640 entries, most which are self explanatory: longitude, latitude, housing_median_age,
+                        total_rooms, total_bedrooms, population, households, median_income, median_house_value,
+                        ocean_proximity. Nine of the variables are ordinal, with ocean_proximity being the nominal
+                        variable. We will use the location data (latitude and longitude). We will cluster the houses by
+                        location and observe how house prices fluctuate across California.
+                        <ul class="attribute-list">
+                            <li>longitude: A value representing how far west a house is. Higher values represent houses
+                                that are further west.</li>
+                            <li>latitude: A value representing how far north a house is. Higher values represent houses
+                                that are further north.</li>
+                            <li>median_house_value: The median house price within a block measured in USD.</li>
+                        </ul>
+                    </h6>
+                </div>
+                <h4>Pre-processing</h4>
+                <div>
+                    <h6>Our dataset has not been cleaned so we will need to go through some pre-processing steps.
+                        We'll start off with the entire dataset, removing any null values and duplicates. I created
+                        histograms and bar plots to visualize the distribution of each variable and check for outliers.
+                        I found that ocean_proximity has only 5 entries for its ISLAND class. These outliers will skew
+                        our model so we have to drop them from our dataset. Even if we're not using ocean_proximity in
+                        our model, it will act as a confounding factor in our clustering. Now that our dataset has been
+                        cleaned, we will drop all variables except the ones we're using.</h6>
+                </div>
+                <h4>Data Understanding & Visualization</h4>
+                <div>
+                    <h6>Using seaborn's countplot, we can plot the distribution of the attributes we're using.</h6>
+                </div>
+                <div class="project">
+                    <img src="images/P4FeatureDist.png" alt="Distribution of Attributes Countplot">
+                    <div class="text">
+                        <p class="description"> Figure 1: Distribution of Attributes Countplot</p>
+                    </div>
+                </div>
+                <div>
+                    <h6>We can see that the longitude and latitude variables are unbalanced. This tells us that some
+                        locations in California have a denser population than others. Our median house value variable is
+                        right skewed but with a heavy distribution of houses valued at 500,000. Now let's see how
+                        these attributes look like together.</h6>
+                </div>
+                <div class="project">
+                    <img src="images/P4LonLatwMHVdist.png"
+                        alt="Distribution of Median House Value with Longitude and Latitude">
+                    <div class="text">
+                        <p class="description"> Figure 2: Distribution of Median House Value across California</p>
+                    </div>
+                </div>
+                <div>
+                    <h6>The scatterplot allows us to visualize the distribution of median house values across
+                        California. The deeper shades of purple indicate areas with higher-priced houses, predominantly
+                        clustered along the coastline. It is widely known that properties with beach access tend to be
+                        more expensive.</h6>
+                </div>
+                <h4>Modeling</h4>
+                <div>
+                    <h6>We'll be implementing the k-means algorithm to perform our geo-spatial clustering, due to its
+                        simplicity, efficiency, and scalability.
+                        K-Means clustering is a distance-based algorithm so we'll need to scale the
+                        data. If we do not scale the data, variables with larger scales will be have more weight
+                        in the distance formula that is being optimized during training. Now we can fit our K-means
+                        model with the scaled training data. </h6>
+                </div>
+                <div>
+                    <h6>Because we're not sure how many clusters to use, we'll have to test out a
+                        range of clusters and choose the best fit. For this, we'll use the elbow method. This method
+                        plots the explained variation in the data as a function of the number of clusters, allowing us
+                        to determine the optimal number of clusters.</h6>
+                </div>
+                <div class="project">
+                    <img src="images/P4ElbowPlot.png" alt="Elbow Plot">
+                    <div class="text">
+                        <p class="description"> Figure 3: Elbow Plot </p>
+                    </div>
+                </div>
+                <div>
+                    <h6>WCSS represents the sum of squared distances between each data point and its assigned cluster
+                        centroid. Our Elbow plot tells us that the majority of the variation can be explained using 2
+                        clusters. Let's test this out by visualizing the data using a scatterplot.</h6>
+                </div>
+                <div class="project">
+                    <img src="images/P4Clusterk2.png" alt="Cluster Plot when k=2">
+                    <div class="text">
+                        <p class="description"> Figure 4: K=2 Scatterplot </p>
+                    </div>
+                </div>
+                <div>
+                    <h6>The data is split into two fairly equal groups: Northern California (0) and Southern
+                        California (1). Let's take a look at the median house values of these two groups.</h6>
+                </div>
+                <div class="project">
+                    <img src="images/P4Boxplotk2.png" alt="Boxplot of Median House Value for k=2 Clusters">
+                    <div class="text">
+                        <p class="description"> Figure 5: Median House Value for k=2 Clusters</p>
+                    </div>
+                </div>
+                <div>
+                    <h6>Both groups show to have similar distributions of median house value. Maybe we didn't use the
+                        correct cluster size. Sometimes the elbow method doesn't accurately represent the data. Let's
+                        try using the Silhouette Coefficient. This score measures how similar an object is to its own
+                        cluster (cohesion) compared to other clusters (separation). The score ranges from -1 to 1, where
+                        a high value indicates that the object is well matched to its own cluster and poorly matched to
+                        neighboring clusters. A score close to 0 indicates overlapping clusters.
+
+                        In summary, the silhouette_score function computes a metric to assess the quality of the
+                        clustering algorithm's output based on the distances between points in the input data and their
+                        assigned clusters.</h6>
+                </div>
+                <div class="project">
+                    <img src="images/P4SilPlot.png" alt="Silhouette Coefficient for Clusters Plot">
+                    <div class="text">
+                        <p class="description"> Figure 6: Silhouette Coefficient for Clusters</p>
+                    </div>
+                </div>
+                <div>
+                    <h6>Once again, the highest score shows to be at 2 clusters. Seeing that our data driven estimates
+                        are not identifying insightful patterns, we'll have to rely on our knowledge of the data. Let's
+                        manually test out a range of clusters.
+                    </h6>
+                </div>
+                <div class="project">
+                    <img src="images/P4Clusterk7.png" alt="Cluster Plot when k=7">
+                    <div class="text">
+                        <p class="description"> Figure 7: K=7 Scatterplot </p>
+                    </div>
+                </div>
+                <div>
+                    <h6>Our scatterplot looks much better with 7 clusters. We can compare this to our earlier
+                        scatterplot with a hue of median_house_value and see that our clusters represent the median
+                        house value of each location more accurately.</h6>
+                </div>
+                <div class="project">
+                    <img src="images/P4LonLatwMHVdist.png"
+                        alt="Distribution of Median House Value with Longitude and Latitude">
+                    <div class="text">
+                        <p class="description"> Figure 8: Distribution of Median House Value across California</p>
+                    </div>
+                </div>
+                <div>
+                    <h6>We can further plot the distribution of median_house value for each of these clusters using
+                        boxplots.</h6>
+                </div>
+                <div class="project">
+                    <img src="images/P4Boxplotk7.png" alt="Boxplot of Median House Value for k=7 Clusters">
+                    <div class="text">
+                        <p class="description"> Figure 9: Median House Value for k=7 Clusters</p>
+                    </div>
+                </div>
+                <div>
+                    <h6>We can see that clusters 4 and 6 have the lowest median house values. In the cluster
+                        scatterplot,
+                        these clusters are the very top cluster (4) and the darkest cluster in the center (6). Clusters
+                        0, 2 and 3, starting at the very bottom of California and going up, are all close in range for
+                        median value with cluster 2 in the lead. Cluster 1 is second lowest for median value and is seen
+                        in the scatterplot as the lightest cluster in Northern California. To the left of that cluster
+                        is cluster 5, with the highest median house value. The best explanation for this is that this
+                        location is near the Bay area as we can see in this scatterplot:</h6>
+                </div>
+                <div class="project">
+                    <img src="images/P4OceanProxPlot.png" alt="Ocean Proximity Scatterplot">
+                    <div class="text">
+                        <p class="description"> Figure 10: Ocean Proximity Distribution </p>
+                    </div>
+                </div>
+                <h4>Story Telling</h4>
+                <div>
+                    <h6>Determining the optimal number of clusters was a bit of a challenge for the model. This shows
+                        the iterative nature of clustering analysis and the need for experimentation to find the best
+                        solution. Originally, we wanted
+                        to find any of the feature patterns using latitude and logitude. Our cluster model picked up on
+                        the median house value feature and effectively created clusters of the different median house
+                        values across California. Being able to identify these patterns demonstrates the model's ability
+                        to capture meaningful information from the input features and organize the data into
+                        interpretable clusters. For example, we learned that the houses in the Bay Area are of the most
+                        expensive in California. Insights like these provide valuable information for stakeholders
+                        interested in regional housing trends and can guide decision-making related to housing
+                        investment, development, and affordability initiatives.
+                        Unfortunately, but not unusually, we had to make a trade-off in our analysis. While increasing
+                        the number of clusters lead to more granular insights, we compromised our silhouette score,
+                        reducing it to 57.16%. To improve the accuracy and interpretability of our results, we could
+                        explore alternative techniques for clustering longitude and latitude, such as the Gaussian
+                        Mixture Model (GMM). GMM can discover complex patterns and group them into cohesive, homogeneous
+                        components that are close representatives of real patterns within the data set. We could also
+                        try k-means clustering again but using a different distance metric, such as Haversine distance
+                        for spherical coordinates.</h6>
+                </div>
+                <h4>Impact</h4>
+                <div>
+                    <h6>Our model can help individuals and families seeking affordable housing by identifying areas in
+                        California with lower median house values. This information can empower potential homebuyers to
+                        make informed decisions about where to live based on their budget constraints.
+                        By providing insights into housing affordability across different regions, this model could also
+                        contribute to efforts aimed at reducing housing inequality, increasing access to homeownership
+                        for lower-income individuals and families.
+
+                        Of course, users of the model should be provided with clear explanations about its limitations
+                        and uncertainties. It's important to emphasize that the clusters represent general trends and
+                        may not accurately reflect individual property values. Educating users about the complexities of
+                        the housing market and the potential biases in the data can promote responsible decision-making.
+                    </h6>
+                </div>
+                <h4>References</h4>
+                <div>
+                    <h6>Dataset: Pace, R. Kelley and Ronald Barry."California Housing Prices."<a
+                            href="https://www.kaggle.com/datasets/camnugent/california-housing-prices/data">https://www.kaggle.com/datasets/camnugent/california-housing-prices/data</a>.Kaggle.
+                    </h6>
+                </div>
+                <h4>Code</h4>
+                <div>
+                    <h6>You can access my code <a
+                            href="https://github.com/yalzouby/yalzouby.github.io/blob/main/ITCS%203162%20Project%202.ipynb">here</a>.
+                    </h6>
+                </div>
+            </section>
+        </div>
+    </main>
+    <footer>
+        <section>
+            <h4>Contact</h4>
+            <p class="email"><i class="fa-regular fa-envelope"></i> <a
+                    href="mailto:yalzouby@uncc.edu">yalzouby@uncc.edu</a>
+            </p>
+            <p class="phone"><i class="fa-solid fa-phone"></i> <a href="tel:7042866840">(704)286-6840</a></p>
+            <ul>
+                <li><a href="https://www.facebook.com/yasmeen.alzouby?mibextid=LQQJ4d"><i
+                            class="fa-brands fa-facebook-f"></i></a></li>
+                <li><a href="https://twitter.com/Yasmeen3630"><i class="fa-brands fa-twitter"></i></a></li>
+                <li><a href="https://instagram.com/yasmeenalz?igshid=OGQ5ZDc2ODk2ZA=="><i
+                            class="fa-brands fa-instagram"></i></a></li>
+                <li><a
+                        href="https://www.linkedin.com/in/yasmeen-alzouby-84ab7a1a1?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"><i
+                            class="fa-brands fa-linkedin-in"></i></a></li>
+            </ul>
+        </section>
+        <p>&copy; Yasmeen's Projects All Rights Reserved</p>
+        <a href="#header">
+            <div class="upper-arrow"><i class="fa-solid fa-arrow-up"></i></div>
+        </a>
+    </footer>
+</body>
+
+</html>
