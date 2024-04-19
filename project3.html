@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Yasmeen Alzouby">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600&display=swap"
+        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Patua+One&family=Playfair+Display&family=Sofia+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style1.css">
+    <link rel="stylesheet" href="css/style2.css">
+    <title>Project 3</title>
+</head>
+
+<body>
+    <header id="header">
+        <ul>
+            <li><a href="/index.html"><img src="images/projectlogo.png" alt="logo" width="100" height="100"></a></li>
+        </ul>
+        <nav>
+            <ul>
+                <li><a href="/index.html">About Me</a></li>
+                <li><a href="/project.html">My Projects</a></li>
+                <li><a href="/project1.html">Project 1</a></li>
+                <li><a href="/project2.html">Project 2</a></li>
+                <li><a href="/project3.html">Project 3</a></li>
+                <li><a href="/project4.html">Project 4</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="content-wrapper">
+            <section id="about">
+                <h2>Project 3: Regression</h2>
+                <h4>What Is Regression?</h4>
+                <div>
+                    <h6>What is regression and how does it work?
+                        Linear regressin is the simplest and most widely used regression technique. It is a statistical
+                        method used to model the relationship between one or more independent variables and a dependent
+                        variable. It aims to predict the value of the dependent variable based on the values of the
+                        independent variables. Linear regression assumes there is a linear relationship between the
+                        independent variables and the dependent variable. It attempts to find the best-fitting straight
+                        line through the data points, such that the difference between the observed values and the
+                        values predicted by the line (residuals) is minimized.</h6>
+                </div>
+                <div>
+                    <h6>The math:</h6>
+                </div>
+                <div>
+                    <h6>Given <i>n</i> data points (<i>x<sub>i</sub>, y<sub>i</sub></i>), where <i>x<sub>i</sub></i>
+                        represents the independent variable(s) and <i>y<sub>i</sub></i> represents the dependent
+                        variable, linear regression aims to find coefficients <i>β<sub>0</sub></i> (intercept) and
+                        <i>β<sub>1</sub>, β<sub>2</sub>, ..., β<sub>p</sub></i> (slopes) such that the linear equation:
+                    </h6>
+                    <h6>
+                        <p style="margin-left: 190px;"><i>y</i> = <i>β<sub>0</sub></i> +
+                            <i>β<sub>1</sub>x<sub>1</sub></i> + <i>β<sub>2</sub>x<sub>2</sub></i> + ... +
+                            <i>β<sub>p</sub>x<sub>p</sub></i> + <i>ε</i>
+                        </p>
+                    </h6>
+                    <h6>minimizes the sum of squared residuals ∑<sub>i=1</sub><sup>n</sup> (<i>y<sub>i</sub> -
+                            ŷ<sub>i</sub></i>)<sup>2</sup>, where ŷ<sub>i</sub> is the predicted value of
+                        <i>y<sub>i</sub></i>.
+                    </h6>
+                </div>
+                <h4>Introduction</h4>
+                <div>
+                    <h6>Imagine asking someone about their ideal home, and they respond with details about the color of
+                        the roof tiles or the age of the HVAC system. Not a typical conversation. But, delve into the
+                        wealth of data provided by this competition's dataset, and you'll find that the nuances of a
+                        property extend far beyond the number of bathrooms or the size of the backyard. In this
+                        competition, we're challenged to unravel the intricate web of factors that influence the price
+                        of a house. Can we accurately predict the price of a house based on its features and
+                        amenities?</h6>
+                </div>
+                <div>
+                    <h6>For this analysis, I will be using the <a
+                            href="https://www.kaggle.com/c/house-prices-advanced-regression-techniques/overview">"House
+                            Prices"</a> dataset from Kaggle, which has 79 explanatory variables describing almost
+                        every aspect of residential homes in Ames, Iowa. The dataset features a mix of nominal and
+                        ordinal variables for 1460 homes. We will attempt to predict the final price of each home.</h6>
+                </div>
+                <h4>Experiment 1: Pre-processing</h4>
+                <div>
+                    <h6>For the first experiment, we will attempt to predict house prices using the dataset with all of
+                        its outliers. We will use both a Linear Regression model and a Random Forest model.</h6>
+                </div>
+                <div>
+                    <h6>I'll start off by making sure the dataset has no null or duplicated values. There are a few
+                        variables that have too many null values and will be removed from our dataset: Id, Alley,
+                        FireplaceQu, PoolQC, Fence, MiscFeature. For the rest of the features with null values, I will
+                        replace them with "NA" for nominal variables and 0 for ordinal variables.
+                        Later on, we will use dummy variables for the categorical features and remove outliers. </h6>
+                </div>
+                <h4>Experiment 1: Data Understanding and Visualization</h4>
+                <div class="project">
+                    <img src="images/P3SalePriceDist.png" alt="SalePrice Histogram">
+                    <div class="text">
+                        <p class="description"> Figure 1: Distribution of SalePrice</p>
+                    </div>
+                </div>
+                <div>
+                    <h6>This histogram plot allows us to visualize the distribution of SalePrice (house prices), our
+                        target variable. We can see that the data is slightly right skewed due to some high outliers.
+                    </h6>
+                </div>
+                <div>
+                    <h6>Let's take a look at some other features and their distributions.</h6>
+                </div>
+                <div class="project">
+                    <img src="images/P3FeatureDistPlots.png" alt="Feature Distribution Plots">
+                    <div class="text">
+                        <p class="description"> Figure 2: Distribution of Features</p>
+                    </div>
+                </div>
+                <div>
+                    <h6>We can see that most of the categorical variables have a lot of one class and are sparse for
+                        the other classes. Similarly, most continuous variables are also heavily skewed. Many continuous
+                        variables show a high frequency for 0, indicating that the house does not have that feature at
+                        all.</h6>
+                </div>
+                <h4>Experiment 1: Modeling</h4>
+                <div>
+                    <h6>Firstly, we create dummy variables for our categorical features. After splitting our dataframe
+                        into training and testing datasets, we used a linear regression model and a random forest
+                        regression model to fit the training set and then predicted on the testing set. As a result, we
+                        were able to generate promising residuals plots. </h6>
+                </div>
+                <div class="project">
+                    <img src="images/P3LRwO.png" alt="Linear Regression Residuals Plot">
+                    <div class="text">
+                        <p class="description"> Figure 3: Linear Regression Residuals Plot</p>
+                    </div>
+                </div>
+                <div>
+                    <h6>Our model appears to have performed very well in predicting the sale prices of Iowa homes. The
+                        pink dots in the visualization represent the predicted versus actual sale prices of each house.
+                        The black line, which signifies a perfect prediction, facilitates the assessment of the model's
+                        accuracy—the closer the pink dots align with the black line, the more accurate the model's
+                        predictions. Notably, only a few outliers deviate significantly from the expected values,
+                        suggesting generally reliable performance.</h6>
+                </div>
+                <div class="project">
+                    <img src="images/P3RFwO.png" alt="Random Forest Regression Residuals Plot">
+                    <div class="text">
+                        <p class="description"> Figure 4: Random Forest Regression Residuals Plot</p>
+                    </div>
+                </div>
+                <div>
+                    <h6>There is a slight difference between the residuals plot of the random forest model and that of
+                        the linear regression model. It appears that the random forest model performed notably better in
+                        predicting houses with a sale price under $250,000. Beyond this threshold, the pattern in the
+                        residuals plot resembles that of the linear regression model, with noticeable outliers.</h6>
+                </div>
+                <h4>Experiment 1: Evaluation</h4>
+                <div>
+                    <h6>We evaluated our models using root mean squared error (RMSE) and the coefficient of
+                        determination. For the linear regression model, the coefficient of determination is 0.88619,
+                        meaning that 88.62% of the points are explained by the regression line. This score tells us how
+                        well the regression model is at predicting SalePrice. The RMSE for this model is 29,545.12. This
+                        tells us that the average difference between values predicted by the model and the actual values
+                        is $29,545.12. For predicting house prices, this is considered a low mean error and demonstrates
+                        the model's strong predictive performance.</h6>
+                </div>
+                <div>
+                    <h6>Comparatively, the coefficient of determination for the random forest regression model is
+                        0.8928, indicating that 89.28% of the points are explained by the regression line. This is
+                        higher than the linear regression model, as observed from the residuals plot. The RMSE for the
+                        random forest model is 28,674.09, nearly $1,000 lower than the linear regression model. A
+                        smaller RMSE signifies better accuracy in predicting SalePrice. So far, the random forest
+                        regressor is proving to be more accurate.</h6>
+                </div>
+                <h4>Experiment 2: Pre-processing</h4>
+                <div>
+                    <h6>For our second experiment, we will attempt to predict house prices using the dataset after
+                        removing SalePrice outliers. Once again, we will use both a linear regression model and a random
+                        forest model.</h6>
+                </div>
+                <div>
+                    <h6>The only difference in pre-processing with this experiment is that we will be removing the
+                        outliers from SalePrice. </h6>
+                </div>
+                <h4>Experiment 2: Data Understanding and Visualization</h4>
+                <div class="project">
+                    <img src="images/P3SalePriceBPwO.png" alt="SalePrice boxplot">
+                    <div class="text">
+                        <p class="description"> Figure 5: Distribution of SalePrice with outliers</p>
+                    </div>
+                </div>
+                <div>
+                    <h6>This boxplot allows us to visualize the distribution of SalePrice, including the median, minimum
+                        and maximum values, and various quartile ranges. We can see that there are many data points
+                        above the maximum line. These are the points we want to remove.</h6>
+                </div>
+                <div class="project">
+                    <img src="images/P3SalePriceBPwoO.png" alt="SalePrice boxplot without outliers">
+                    <div class="text">
+                        <p class="description"> Figure 6: Distribution of SalePrice without outliers</p>
+                    </div>
+                </div>
+                <div>
+                    <h6>This boxplot shows our SalePrice distribution after removing the big outliers.</h6>
+                </div>
+                <h4>Experiment 2: Modeling</h4>
+                <div>
+                    <h6>We'll use the same models for regression on the newly processed dataset.</h6>
+                </div>
+                <div class="project">
+                    <img src="images/P3LRwoO.png" alt="Linear Regression Residuals Plot">
+                    <div class="text">
+                        <p class="description"> Figure 7: Linear Regression Residuals Plot</p>
+                    </div>
+                </div>
+                <div>
+                    <h6>The residuals plot for the linear regression model appears to be more scattered compared to the
+                        one in experiment 1. However, it's evident that the scale has changed since we removed the
+                        outliers—now, 350,000 is the upper limit instead of 800,000. It's as though we've zoomed in on
+                        the previous residuals plot.</h6>
+                </div>
+                <div class="project">
+                    <img src="images/P3RFwoO.png" alt="Random Forest Regression Residuals Plot">
+                    <div class="text">
+                        <p class="description"> Figure 8: Random Forest Regression Residuals Plot</p>
+                    </div>
+                </div>
+                <div>
+                    <h6>The residuals plot for the random forest regression model also appears to be more scattered
+                        compared to the one in experiment 1. We'll need to examine the evaluation metrics to accurately
+                        assess the models.</h6>
+                </div>
+                <h4>Experiment 2: Evaluation</h4>
+                <div>
+                    <h6>With the linear regression model, 86.61% of the points are explained by the regression line.
+                        This is lower than the coefficient obtained from the linear regression model with the outliers
+                        dataset. The RMSE for this model is 20637.97,
+                        representing the average difference between the predicted and actual SalePrice values. This is
+                        lower than the previous linear regression model by nearly $9,000. Given this, we'll use
+                        RMSE as the main evaluation metric for all our models. That being so, the second experiment
+                        demonstrates improved performance over the first for the linear regression model.</h6>
+                </div>
+                <div>
+                    <h6>As for the random forest regression model, 86.98% of the variance is explained by the regression
+                        line. Once again, this is higher than the linear regression model. However, it's lower than
+                        the coefficient obtained in the first experiment with the random forest model. The RMSE for this
+                        model is 20,352.30, indicating a smaller average difference between predicted and actual values
+                        compared to the previous model by only $300. Nonetheless, it's $8,000 lower than the RMSE of the
+                        random forest model in the first experiment. Therefore, based on RMSE, this model, combined with
+                        the removal of outliers, yields the most accurate predictions for SalePrice.</h6>
+                </div>
+                <h4>Experiment 3: Pre-processing</h4>
+                <div>
+                    <h6>For our third experiment, we will attempt to predict house prices using the dataset before
+                        removing SalePrice outliers. This time we will use Google's open-source library, TensorFlow
+                        Decision Forests (TFDF). TFDF uses a variety of tree-based models, such as Random Forests,
+                        offering a more diverse set of algorithms that can handle more complex scenarios.</h6>
+                </div>
+                <div>
+                    <h6>The preprocessing for experiment 3 is the same as that done in experiment 1.</h6>
+                </div>
+                <h4>Experiment 3: Data Understanding and Visualization</h4>
+                <div>
+                    <h6>We're going to take another look at the distribution of the different features. This will be a
+                        good reference once we see the number of times each feature is used as the root node in our
+                        model.</h6>
+                </div>
+                <div class="project">
+                    <img src="images/P3FeatureDistPlots.png" alt="Feature Distribution Plots">
+                    <div class="text">
+                        <p class="description"> Figure 9: Distribution of Features</p>
+                    </div>
+                </div>
+                <h4>Experiment 3: Modeling</h4>
+                <div>
+                    <h6>The following plot shows us the number of trees used to reduce the variance in the model.</h6>
+                </div>
+                <div class="project">
+                    <img src="images/P3TFDFRMSE.png" alt="RMSE per number of trees">
+                    <div class="text">
+                        <p class="description"> Figure 10: RMSE Per Number of Trees</p>
+                    </div>
+                </div>
+                <div>
+                    <h6>The first 50 trees appear to have made the biggest impact in reducing the RMSE.</h6>
+                </div>
+                <div>
+                    <h6>Out of the importance values, we're going to take a closer look at "NUM_AS_ROOT." This value
+                        will show us the number of times each feature was used as the root node. Features that are
+                        frequently selected as the root node are considered more important as they have a strong
+                        influence on the overall decision-making process of the trees.</h6>
+                </div>
+                <div class="project">
+                    <img src="images/P3NUMASROOT.png" alt="Number of root nodes bar graph">
+                    <div class="text">
+                        <p class="description"> Figure 11: Number of Root Nodes Bar Graph</p>
+                    </div>
+                </div>
+                <div>
+                    <h6>The bar graph helps us visualize the features that had the biggest impact in reducing the
+                        variance in the model. OverallQual, which rates the overall material and finish of a house, was
+                        used as a root node 110 times, having the most significant influence in the model. ExterQual,
+                        which evaluates the quality of the material on the exterior of a house, is second lead with 53
+                        root nodes. GarageCars and Neighborhood follow behind in third and fourth place.</h6>
+                </div>
+                <h4>Experiment 3: Evaluation</h4>
+                <div>
+                    <h6>The RMSE for this model is 29,651.58, indicating an average difference of $29,651.58 between the
+                        predicted and actual values. Surprisingly, this is the highest RMSE among all the models in our
+                        experiments. The performance of this model was below expectations, making it the least accurate
+                        in predicting SalePrice.</h6>
+                </div>
+                <h4>Impact</h4>
+                <div>
+                    <h6>The models developed in this analysis carry the risk of being misleading if deployed and used on
+                        other datasets. Given the complexity of the dataset, featuring numerous variables and entries,
+                        the preprocessing and cleaning process was challenging and prone to errors. Despite my efforts,
+                        there may still be inaccuracies in the dataset that could result in misleading predictions.</h6>
+                </div>
+                <div>
+                    <h6>On the other hand, the insights gained from the third experiment could prove beneficial to
+                        individuals seeking to sell a house. By identifying the features
+                        that exert the greatest influence on the sale price of a house, sellers can prioritize improving
+                        or highlighting those features. For instance, our TFDF model highlighted that the overall
+                        material and finish of a house had the most significant impact on sale price.</h6>
+                </div>
+                <h4>Conclusion</h4>
+                <div>
+                    <h6>Through our experiments, we saw that there are factors beyond the obvious ones that influence
+                        house prices, making the prediction task more complex. Each experiment showcased the versatility
+                        of dataset analysis and its potential for predicting variables.</h6>
+                </div>
+                <div>
+                    <h6>The removal of outliers from our target variable notably enhanced the accuracy of both
+                        regression models. However, the unexpected weaker performance of the TFDF model prompts further
+                        inquiry. It raises questions about the potential impact of removing outliers before implementing
+                        the TFDF model and whether the presence of unnecessary variables, possibly due to the dummy
+                        variable trap, affected model prioritization.</h6>
+                </div>
+                <h4>References</h4>
+                <div>
+                    <h6>Dataset: Anna Montoya, DataCanary. (2016). House Prices - Advanced Regression Techniques.
+                        Kaggle. <a
+                            href="https://kaggle.com/competitions/house-prices-advanced-regression-techniques">https://kaggle.com/competitions/house-prices-advanced-regression-techniques</a>
+                    </h6>
+                </div>
+                <h4>Code</h4>
+                <div>
+                    <h6>You can access my code <a
+                            href="https://github.com/yalzouby/yalzouby.github.io/blob/b983d682c563267eca279cfddbbb85ae2620efdb/ITCS%203162%20Project%201-Final.ipynb">here</a>.
+                    </h6>
+                </div>
+            </section>
+        </div>
+    </main>
+    <footer>
+        <section>
+            <h4>Contact</h4>
+            <p class="email"><i class="fa-regular fa-envelope"></i> <a
+                    href="mailto:yalzouby@uncc.edu">yalzouby@uncc.edu</a>
+            </p>
+            <p class="phone"><i class="fa-solid fa-phone"></i> <a href="tel:7042866840">(704)286-6840</a></p>
+            <ul>
+                <li><a href="https://www.facebook.com/yasmeen.alzouby?mibextid=LQQJ4d"><i
+                            class="fa-brands fa-facebook-f"></i></a></li>
+                <li><a href="https://twitter.com/Yasmeen3630"><i class="fa-brands fa-twitter"></i></a></li>
+                <li><a href="https://instagram.com/yasmeenalz?igshid=OGQ5ZDc2ODk2ZA=="><i
+                            class="fa-brands fa-instagram"></i></a></li>
+                <li><a
+                        href="https://www.linkedin.com/in/yasmeen-alzouby-84ab7a1a1?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"><i
+                            class="fa-brands fa-linkedin-in"></i></a></li>
+            </ul>
+        </section>
+        <p>&copy; Yasmeen's Projects All Rights Reserved</p>
+        <a href="#header">
+            <div class="upper-arrow"><i class="fa-solid fa-arrow-up"></i></div>
+        </a>
+    </footer>
+</body>
+
+</html>
