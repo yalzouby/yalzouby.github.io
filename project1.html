@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Yasmeen Alzouby">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600&display=swap"
+    rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Patua+One&family=Playfair+Display&family=Sofia+Sans&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style1.css">
+  <link rel="stylesheet" href="css/style2.css">
+  <title>Project 1</title>
+</head>
+
+<body>
+  <header id="header">
+    <ul>
+      <li><a href="/index.html"><img src="images/projectlogo.png" alt="logo" width="100" height="100"></a></li>
+    </ul>
+    <nav>
+      <ul>
+        <li><a href="/index.html">About Me</a></li>
+        <li><a href="/project.html">My Projects</a></li>
+        <li><a href="/project1.html">Project 1</a></li>
+        <li><a href="/project2.html">Project 2</a></li>
+        <li><a href="/project3.html">Project 3</a></li>
+        <li><a href="/project4.html">Project 4</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <div class="content-wrapper">
+      <section id="about">
+        <h2>Project 1: Defining a Problem and Data Understanding</h2>
+        <h4>Introduction</h4>
+        <div>
+          <h6>Diamond rings, quite literally an investment, will bring you tears before joy. The average diamond ring is
+            estimated at $6,000, but what qualities of a diamond give it its value and thus its price?
+            The size of the stone is a well known contributor, but the four Cs are the major defining features of a
+            diamond ring: color, cut, carat, and clarity.
+            If I had a budget and wanted to maximize the value to price ratio of my diamond ring, I would like to know
+            which of these qualities I should focus on over others. Which feature of a diamond raises its value (price) the most?</h6>
+        </div>
+        <div>
+          <h6>For this analysis, I will be using the <a
+              href="https://www.kaggle.com/datasets/shivam2503/diamonds">"Diamonds"</a> dataset from Kaggle, which
+            features the prices, four Cs, and size (x, y, and z) attributes of nearly 54,000 diamonds.
+            The price variable is numerical and in US Dollars. The carat variable, also numerical, is defined as the
+            weight of the diamond and ranges from 0.2 to 5.01 with 5.01 being the heaviest.
+            The cut of a diamond is measured by its quality: Fair, Good, Very Good, Premium, and Ideal. The color of a
+            diamond is ranked from J to D with D being the best.
+            The clarity variable, defined by how clear a diamond is, is measured by another categorical system: I1
+            (worst), SI2, SI1, VS2, VS1, VVS2, VVS1, IF (best).</h6>
+        </div>
+        <h4>Pre-processing</h4>
+        <div>
+          <h6>I'll start off by making sure the dataset has no null or duplicated values. As I will be focusing on the
+            cut, clarity, color, and carats of a diamond in this analysis, I will disregard and remove the depth and
+            table variables.
+            I will use the x, y and z variables to create a new feature, volume, which will replace the dimension
+            features.
+            The cut, clarity, and color are all variables with categorical values. For the sake of simplicity, I will be
+            converting them to numerical values, with 1 representing the best values.</h6>
+        </div>
+        <h4>Data Understanding & Visualization</h4>
+        <div class="project">
+          <img src="images/DiamondsHeatmap.png" alt="Diamonds Heatmap">
+          <div class="text">
+            <p class="description"> Figure 1: Correlation of Diamond Attributes Heatmap</p>
+          </div>
+        </div>
+        <div>
+          <h6>The simplest approach to visualizing this dataset is by using a heatmap. Implementing seaborn's heatmap
+            allows us to map out the correlation between every variable in the dataset.
+            Since we're only analyzing the four c's and the price of a diamond, we can see from the map that the carat
+            of a diamond has the most impact on its price, with a 92% correlation.
+            Color and clarity are a lot lower, at 17% and 15%. Cut has the lowest correlation at 5.3%.</h6>
+        </div>
+        <div>
+          <h6>Let's take a closer look at each of these correlations.</h6>
+        </div>
+        <div class="project">
+          <img src="images/DiamondsCutPriceJointplot.png" alt="Diamonds Cut-Price Jointplot">
+          <div class="text">
+            <p class="description"> Figure 2: Cut-Price Jointplot</p>
+          </div>
+        </div>
+        <div>
+          <h6>Using seaborn's jointplot, we are able to visualize the relationship between the four c's and the price of
+            a diamond.
+            Even more, jointplot allows us to simultaneously observe the distribution of each variable. Unfortunately,
+            our datatset is very dense and the datapoints overlap each other,
+            making it difficult to see where the higher and lower concentrations truly are. A boxenplot could help
+            improve the visualization, by showing the quartile values of each distribution while maintaining the shape
+            of each distribution.
+            For example, we can look at the boxenplot for cut and price.</h6>
+        </div>
+        <div class="project">
+          <img src="images/DiamondsCutPriceBoxenplot.png" alt="Diamonds Cut-Price Boxenplot">
+          <div class="text">
+            <p class="description"> Figure 3: Cut-Price Boxenplot</p>
+          </div>
+        </div>
+        <div>
+          <h6>Strangely enough, the average price of a diamond with an Ideal cut (1/best) is the lowest amongst the
+            cuts, and the average price of a diamond with a Fair cut (5/worst) is the highest amongst the cuts. Why is
+            that?
+            Our jointplot earlier allowed us to see the count distribution of each cut, which was unbalanced. We can
+            take another look using a countplot.</h6>
+        </div>
+        <div class="project">
+          <img src="images/DiamondsCutCountplot.png" alt="Diamonds Cut Countplot">
+          <div class="text">
+            <p class="description"> Figure 4: Cut Countplot</p>
+          </div>
+        </div>
+        <div>
+          <h6>There are over 20,000 diamonds with an Ideal (1) cut and less than 2,500 diamonds with a Fair (5) cut.
+            With such an unbalanced dataset, we cannot trust the visualization to be entirely accurate.</h6>
+        </div>
+        <div>
+          <h6>The distribution of the clarity variable is similarly unbalanced.</h6>
+        </div>
+        <div class="project">
+          <img src="images/DiamondsClarityCountplot.png" alt="Diamonds Clarity Countplot">
+          <div class="text">
+            <p class="description"> Figure 5: Clarity Countplot</p>
+          </div>
+        </div>
+        <div>
+          <h6>The distribution of the color variable is almost balanced.</h6>
+        </div>
+        <div class="project">
+          <img src="images/DiamondsColorCountplot.png" alt="Diamonds Color Countplot">
+          <div class="text">
+            <p class="description"> Figure 6: Color Countplot</p>
+          </div>
+        </div>
+        <div>
+          <h6>If we disregard the two lowest colors on the scale (6 and 7), then we can see the average price of a
+            diamond is highest for color 5 and nearly the same for the first four colors.</h6>
+        </div>
+        <div class="project">
+          <img src="images/DiamondsColorPriceJointplot.png" alt="Diamonds Color-Price Jointplot">
+          <div class="text">
+            <p class="description"> Figure 7: Color-Price Jointplot</p>
+          </div>
+        </div>
+        <div class="project">
+          <img src="images/DiamondsColorPriceBoxenplot.png" alt="Diamonds Color-Price Boxenplot">
+          <div class="text">
+            <p class="description"> Figure 8: Color-Price Boxenplot</p>
+          </div>
+        </div>
+        <div>
+          <h6>While the distribution of the carat variable is also unbalanced, the data seems to be consistent enough
+            for the correlation between carat and price to reflect logical implication.</h6>
+        </div>
+        <div class="project">
+          <img src="images/DiamondsCaratPriceJointplot.png" alt="Diamonds Carat-Price Jointplot">
+          <div class="text">
+            <p class="description"> Figure 9: Carat-Price Jointplot</p>
+          </div>
+        </div>
+        <div>
+          <h6>As carat increases, so does price. While the plot does begin to plateau after 1 carat,
+            it is important to note that the distribution of carats in the dataset is right skewed,
+            with insignificant density in carats over 2.5. Nevertheless, the few high carats are respectively plotted
+            high in price, foreshadowing a stronger positive correlation if our dataset had a more balanced distribution for
+            carat.</h6>
+        </div>
+        <h4>Story Telling</h4>
+        <div>
+          <h6>Let's go back to our original inquiry: Which feature of a diamond raises its value (price) the most? 
+            Our dataset might be too imbalanced to have gathered a fair conclusion. 
+            The plots show that diamonds with a lower color and cut have a higher price than diamonds with a higher color and cut. 
+            Or perhaps, people who chose a lower cut or lower color also chose to splurge when it came to carat. 
+            Most people only pay attention to carats when diamond shopping and don't know much about or don't care for the other features.
+            This would align with our findings for the carat feature, which showed to have a positive correlation. 
+            Both the heatmap (Figure 1) and Carat-Price jointplot (Figure 9) support this conclusion.
+            The carat feature of a Diamond appears to raise its value (price) the most.
+
+            unbalanced data, answered question?, partially?</h6>
+        </div>
+        <h4>Impact</h4>
+        <div>
+          <h6>It is very plausible that our conclusion is biased given our unbalanced dataset. 
+            Our visualizations can also be misleading if there are confounding factors. 
+            For example, cut and color appear like they cost more, but what if that's a co-ocurring high carat feature. 
+            Our results might misdirect people to consider higher cuts and colors as cheaper options when in reality they're more expensive.</h6>
+        </div>
+        <div>
+          <h6>Moving forward, we could try and find a solution for the imbalance of features in the dataset and then re-analyze the dataset.
+            We might even have new questions arise from this analysis. 
+            For example, how often will people who purchase a diamond with a high carat level opt for lower quality in color, cut, and clarity?</h6>
+        </div>
+        <h4>References</h4>
+        <div>
+          <h6>Dataset: Agrawal, Shivam.“Diamonds."<a
+              href="https://www.kaggle.com/datasets/shivam2503/diamonds">https://www.kaggle.com/datasets/shivam2503/diamonds</a>.Kaggle.
+          </h6>
+        </div>
+        <h4>Code</h4>
+        <div>
+          <h6>You can access my code <a
+              href="https://github.com/yalzouby/yalzouby.github.io/blob/b983d682c563267eca279cfddbbb85ae2620efdb/ITCS%203162%20Project%201-Final.ipynb">here</a>.
+          </h6>
+        </div>
+      </section>
+    </div>
+  </main>
+  <footer>
+    <section>
+      <h4>Contact</h4>
+      <p class="email"><i class="fa-regular fa-envelope"></i> <a href="mailto:yalzouby@uncc.edu">yalzouby@uncc.edu</a>
+      </p>
+      <p class="phone"><i class="fa-solid fa-phone"></i> <a href="tel:7042866840">(704)286-6840</a></p>
+      <ul>
+        <li><a href="https://www.facebook.com/yasmeen.alzouby?mibextid=LQQJ4d"><i
+              class="fa-brands fa-facebook-f"></i></a></li>
+        <li><a href="https://twitter.com/Yasmeen3630"><i class="fa-brands fa-twitter"></i></a></li>
+        <li><a href="https://instagram.com/yasmeenalz?igshid=OGQ5ZDc2ODk2ZA=="><i
+              class="fa-brands fa-instagram"></i></a></li>
+        <li><a
+            href="https://www.linkedin.com/in/yasmeen-alzouby-84ab7a1a1?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"><i
+              class="fa-brands fa-linkedin-in"></i></a></li>
+      </ul>
+    </section>
+    <p>&copy; Yasmeen's Projects All Rights Reserved</p>
+    <a href="#header">
+      <div class="upper-arrow"><i class="fa-solid fa-arrow-up"></i></div>
+    </a>
+  </footer>
+</body>
+
+</html>
