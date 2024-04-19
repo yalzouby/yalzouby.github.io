@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Yasmeen Alzouby">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600&display=swap"
+        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Patua+One&family=Playfair+Display&family=Sofia+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style1.css">
+    <link rel="stylesheet" href="css/style2.css">
+    <title>Project 2</title>
+</head>
+
+<body>
+    <header id="header">
+        <ul>
+            <li><a href="/index.html"><img src="images/projectlogo.png" alt="logo" width="100" height="100"></a></li>
+        </ul>
+        <nav>
+            <ul>
+                <li><a href="/index.html">About Me</a></li>
+                <li><a href="/project.html">My Projects</a></li>
+                <li><a href="/project1.html">Project 1</a></li>
+                <li><a href="/project2.html">Project 2</a></li>
+                <li><a href="/project3.html">Project 3</a></li>
+                <li><a href="/project4.html">Project 4</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="content-wrapper">
+            <section id="about">
+                <h2>Project 2: Classification</h2>
+                <h4>Introduction</h4>
+                <div>
+                    <h6>Cardiovascular diseases (CVDs) are the number 1 cause of death globally, taking an estimated
+                        17.9 million lives each year, which accounts for 31% of all deaths worldwide. Four out of 5CVD
+                        deaths are due to heart attacks and strokes, and one-third of these deaths occur prematurely in
+                        people under 70 years of age. Heart failure is a common event caused by CVDs and this dataset
+                        contains 11 features that can be used to predict a possible heart disease.
+
+                        People with cardiovascular disease or who are at high cardiovascular risk (due to the presence
+                        of one or more risk factors such as hypertension, diabetes, hyperlipidaemia or already
+                        established disease) need early detection and management wherein a machine learning model can be
+                        of great help. Through this analysis, we will implement a model that will allow us to
+                        predict who is at risk of heart disease based off of their heart features.</h6>
+                </div>
+                <div>
+                    <h6>For this analysis, I will be using the <a
+                            href="https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction/data">"Heart
+                            Failure Prediction"</a> dataset from
+                        Kaggle, which is a combination of several other independent datasets. The dataset features 11
+                        common heart disease predicters for 918 observations as well as a heart disease attribute. Seven
+                        of the attributes are categorical:</h6>
+                    <ul class="attribute-list">
+                        <li>Age: age of the patient [years]</li>
+                        <li>Sex: sex of the patient [M: Male, F: Female]</li>
+                        <li>ChestPainType: chest pain type [TA: Typical Angina, ATA: Atypical Angina, NAP: Non-Anginal
+                            Pain, ASY: Asymptomatic]</li>
+                        <li>RestingBP: resting blood pressure [mm Hg]</li>
+                        <li>Cholesterol: serum cholesterol [mm/dl]</li>
+                        <li>FastingBS: fasting blood sugar [1: if FastingBS > 120 mg/dl, 0: otherwise]</li>
+                        <li>RestingECG: resting electrocardiogram results [Normal: Normal, ST: having ST-T wave
+                            abnormality (T wave inversions and/or ST elevation or depression of > 0.05 mV), LVH: showing
+                            probable or definite left ventricular hypertrophy by Estes' criteria]</li>
+                        <li>MaxHR: maximum heart rate achieved [Numeric value between 60 and 202]</li>
+                        <li>ExerciseAngina: exercise-induced angina [Y: Yes, N: No]</li>
+                        <li>Oldpeak: oldpeak = ST [Numeric value measured in depression]</li>
+                        <li>ST_Slope: the slope of the peak exercise ST segment [Up: upsloping, Flat: flat, Down:
+                            downsloping]</li>
+                        <li>HeartDisease: output class [1: heart disease, 0: Normal]</li>
+                    </ul>
+                </div>
+                <h4>Pre-processing</h4>
+                <div>
+                    <h6>To prepare the dataset for processing, we'll first make sure it has no null or duplicated
+                        values. While KNN is sensitive to outliers, we will still refrain from removing any outliers for
+                        the numerical attributes. Outliers in this context represent the serious health conditions that
+                        could decide whether or not a person is at risk of heart disease.</h6>
+                </div>
+                <div>
+                    <h6>Later on, we will use a LabelEncoder to change the categorical values into numerical values so
+                        that we can use a predictor model.</h6>
+                </div>
+                <h4>Data Understanding & Visualization</h4>
+                <div>
+                    <h6>We'll start off by ensuring our dataset is balanced so our model doesn't train on a biased
+                        dataset. Using seaborn's countplot, we can plot the distribution of the heart disease
+                        attribute, which will be our response variable.</h6>
+                </div>
+                <div class="project">
+                    <img src="images/P2HeartDiseaseCountplot.png" alt="Heart Disease Countplot">
+                    <div class="text">
+                        <p class="description"> Figure 1: Distribution of Heart Disease Risk</p>
+                    </div>
+                </div>
+                <div>
+                    <h6>The plot shows that the dataset is fairly balanced with 508 people having a risk of heart
+                        disease and 410 people not having a risk of heart disease.
+                        Let's compare this distribution to the rest of the variables' distributions by creating
+                        subplots. We'll use histograms for numeric variables and bar plots for categorical variables,
+                        ensuring all variables are visualized appropriately.</h6>
+                </div>
+                <div class="project">
+                    <img src="images/P2FeaturesDistributions.png" alt="Heart Features' Distributions Subplots">
+                    <div class="text">
+                        <p class="description"> Figure 2: Distribution of Heart Features</p>
+                    </div>
+                </div>
+                <div>
+                    <h6>We can see that the other attributes' distributions aren't balanced, which is to be
+                        expected. As long as our response variable is balanced then we are safe to proceed. Notice that
+                        our cholesterol distribution shows a high frequency for cholesterol levels under 50. While it
+                        may look like an outlier, it is actually a sign of serious health complications such as heart
+                        disease.</h6>
+                </div>
+                <div>
+                    <h6>Let's overlay the heart disease attribute on top of the distribution subplots to get an
+                        understanding of which health indicators may cause heart disease.</h6>
+                </div>
+                <div class="project">
+                    <img src="images/P2FeaturesDistributionswHeartDisease.png"
+                        alt="Heart Features' Distributions Subplots with hue Heart Disease">
+                    <div class="text">
+                        <p class="description"> Figure 3: Distribution of Heart Disease Risk for Each Heart Feature</p>
+                    </div>
+                </div>
+                <div>
+                    <h6>For most of these plots, we can tell that there is a clear divide between which health
+                        conditions correlate with heart disease and which do not. For example, there is a higher risk of
+                        heart disease for individuals with lower maximum heart rates than individuals with higher
+                        maximum heart rates. This means it will be fairly easy to predict heart failure based on heart
+                        features.</h6>
+                </div>
+                <div>
+                    <h6>We can further use a pairplot to create scatter subplots to visualize the distribution of heart
+                        disease in relation to co-occurring health conditions.</h6>
+                </div>
+                <div class="project">
+                    <img src="images/P2FeaturesPairplotwHeartDisease.png"
+                        alt="Heart Features Pairplot with hue Heart Disease">
+                    <div class="text">
+                        <p class="description"> Figure 4: Distribution of Heart Disease Risk in Relation to Co-occurring
+                            Heart Features</p>
+                    </div>
+                </div>
+                <div>
+                    <h6>For example, we can see that there is more risk of heart disease as maximum heart rate drops.
+                        We can also tell that younger individuals tend to have higher maximum heart rates than older
+                        individuals. So, we can deduce that older individuals are more likely to get heart disease
+                        because their maximum heart rate is low.</h6>
+                </div>
+                <div>
+                    <h6>Our pairplot also shows us that outliers, regardless of heart feature, usually signify heart
+                        disease.</h6>
+                </div>
+                <h4>Modeling</h4>
+                <div>
+                    <h6>Since we have outliers in our dataset that we don't want to get rid of, we will avoid using
+                        KNN and Naive Bayes, both which are sensitive to outliers. Random Forests, on the other hand,
+                        are fairly robust to outliers and have excellent accuracy. While Decision Tree are also good at
+                        handling outliers, they have a danger of overfitting. We need our model to accurately predict
+                        new data. By using Random Forest, we are creating and averaging the results of an ensemble of
+                        individual trees and thus reducing the chance of overfitting.
+
+                        One of Random Forest's strengths is being able to accurately analyze data without needing much
+                        pre-processing, which is why we will not need to scale and normalize the dataset. We can proceed
+                        to use Scikit's OneHotEncoder to transform our categorical data into numeric data.
+                    </h6>
+                </div>
+                <h4>Evaluation</h4>
+                <div>
+                    <h6>Let's take a look at the results of our Random Forest model:
+                    </h6>
+                </div>
+                <div class="project">
+                    <img src="images/P2EvaluationMetrics.png" alt="Evaluation Metrics">
+                    <div class="text">
+                        <p class="description"> Figure 5: Random Forest Classifier Evaluation Metrics</p>
+                    </div>
+                </div>
+                <div>
+                    <h6>
+                        Our Random Forest model has an accuracy score of 88%, meaning that it is able to correctly
+                        predict whether or not a person is at risk for heart disease 88% of the time. Looking at the confusion
+                        matrix, this ratio translates to 162 correct predictions out of all the 184 predictions made.</h6>
+                </div>
+                <div class="project">
+                    <img src="images/P2ConfusionMatrix.png" alt="Confusion Matrix">
+                    <div class="text">
+                        <p class="description"> Figure 6: Confusion Matrix</p>
+                    </div>
+                </div>
+                <div>
+                    <h6>Given our context of predicting heart disease, where false negatives (predicting a person does
+                        not have a risk of heart disease when they actually do) might have more serious consequences
+                        than false positives (predicting a person has a risk of heart disease when they do not), the
+                        metric we should prioritize is recall.
+
+                        Recall measures the proportion of actual positive cases (people with risk of heart disease) that
+                        are correctly predicted by the model. In other words, it measures the model's ability to find
+                        all positive cases while avoiding false negatives. A higher recall indicates that the model is
+                        better at identifying people with risk of heart disease and minimizing false negatives.
+
+                        Our recall score tells us that our model correctly identifies all risk of heart disease cases
+                        while avoiding false negatives 89% of the time. Out of our 107 predictions, 95 were correctly
+                        classified as having a risk of heart disease while 12 were wrongly classified as not having a
+                        risk of heart disease when really they do.
+                    </h6>
+                </div>
+                <h4>Story Telling</h4>
+                <div>
+                    <h6>Let's go back to our original inquiry: Can we accurately predict who is at risk of heart disease
+                        based off of their heart features? Our distribution subplots (Figure 3) made it easy to
+                        visualize the probability of a person having a risk of heart disease based on the different
+                        heart features. There was for the most part an understandable divide between the status of a
+                        heart feature and if it showed risk of heart disease or not. This helps us feel more secure with
+                        the accuracy of our model to make these predictions on its own.
+
+                        Analyzing our model's evaluation metrics proved to us that there will always be a cost in
+                        prediction, we just have to choose which one to prioritize. We chose to prioritize recall.
+                        However, is an 88% recall score high enough to make our model reliable? Perhaps if we were
+                        predicting rain, 88% would be enough, but we are predicting the risk of a serious health
+                        complication in order to prevent it. What score is high enough to make the use of this model
+                        ethical?
+                    </h6>
+                </div>
+                <h4>Impact</h4>
+                <div>
+                    <h6>Using machine learning in the health field has brought along many advancements, but not without
+                        the risks. Our model is used to make medical diagnoses, which is a very heavy task. A wrong
+                        diagnosis can potentially kill someone. This is the reason we focused on maximizing true
+                        positives while minimizing false negatives when assessing our model. For a health complication
+                        as severe as heart disease, there is a high cost associated with false negatives, so it's
+                        crucial to identify all positive cases. If our model fails to predict an individual's risk of
+                        heart disease, they won't know to take the preventative measures needed. On the other hand,
+                        having false alarms (identifying a person with heart disease risk when they don't have it) might
+                        be tedious and timely to manually unravel, but it is an acceptable compromise given the
+                        alternative. It is always better to be safe than too late.
+                    </h6>
+                </div>
+                <h4>References</h4>
+                <div>
+                    <h6>Dataset: fedesoriano.(September 2021)."Heart Failure Prediction Dataset."<a
+                            href="https://www.kaggle.com/fedesoriano/heart-failure-prediction">https://www.kaggle.com/fedesoriano/heart-failure-prediction</a>.Kaggle.
+                    </h6>
+                </div>
+                <h4>Code</h4>
+                <div>
+                    <h6>You can access my code <a
+                            href="https://github.com/yalzouby/yalzouby.github.io/blob/main/ITCS%203162%20Project%202.ipynb">here</a>.
+                    </h6>
+                </div>
+            </section>
+        </div>
+    </main>
+    <footer>
+        <section>
+            <h4>Contact</h4>
+            <p class="email"><i class="fa-regular fa-envelope"></i> <a
+                    href="mailto:yalzouby@uncc.edu">yalzouby@uncc.edu</a>
+            </p>
+            <p class="phone"><i class="fa-solid fa-phone"></i> <a href="tel:7042866840">(704)286-6840</a></p>
+            <ul>
+                <li><a href="https://www.facebook.com/yasmeen.alzouby?mibextid=LQQJ4d"><i
+                            class="fa-brands fa-facebook-f"></i></a></li>
+                <li><a href="https://twitter.com/Yasmeen3630"><i class="fa-brands fa-twitter"></i></a></li>
+                <li><a href="https://instagram.com/yasmeenalz?igshid=OGQ5ZDc2ODk2ZA=="><i
+                            class="fa-brands fa-instagram"></i></a></li>
+                <li><a
+                        href="https://www.linkedin.com/in/yasmeen-alzouby-84ab7a1a1?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"><i
+                            class="fa-brands fa-linkedin-in"></i></a></li>
+            </ul>
+        </section>
+        <p>&copy; Yasmeen's Projects All Rights Reserved</p>
+        <a href="#header">
+            <div class="upper-arrow"><i class="fa-solid fa-arrow-up"></i></div>
+        </a>
+    </footer>
+</body>
+
+</html>
