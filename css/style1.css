@@ -134,6 +134,7 @@ header {
 
 #about {
     margin: 4rem 0;
+    text-align: center;
 }
 
 #about h2, #contact h2 {
